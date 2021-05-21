@@ -33,6 +33,5 @@ yarn-error.log*
 .env
 # vercel
 .vercel
-/.env
-/cookies.json
-/device.json
+cookies.json
+device.json
