@@ -3,13 +3,19 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import BotApi from '../BotApi';
 import { useState } from 'react';
-
+import axios from "axios"
 export default function Home(props) {
   const [state, setState] = useState({
     smsText: 0
   })
   const handleChange = (e) => {
     setState(state => ({ ...state, smsText: e.target.value }))
+  }
+  const sendSMS = () => {
+    axios.post("/api/twof", {
+      sms: state.smsText,
+      identifier: props.two_factor_identifier
+    })
   }
   return (
     <div className={styles.container}>
@@ -27,7 +33,7 @@ export default function Home(props) {
         {props.two_factor_identifier && <section>
           <h6>Введите SMS</h6>
           <input value={state.smsText} onChange={handleChange} />
-          <button>Отправить</button>
+          <button onClick={sendSMS}>Отправить</button>
         </section>}
         <p className={styles.description}>
           Get started by editing{' '}
@@ -82,11 +88,11 @@ export default function Home(props) {
 }
 export async function getServerSideProps(context) {
   const ig = new BotApi()
-  let loggin = await ig.login()
-  console.log(loggin)
+  await ig.checkLogged()
+  let loggin = await ig.getCommentators()
   return {
     props: {
-      two_factor_identifier: loggin.two_factor_identifier
+
     }, // will be passed to the page component as props
   }
 }

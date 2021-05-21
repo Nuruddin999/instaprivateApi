@@ -1,7 +1,7 @@
 import { ErrorTwoF } from "./types/types";
-import { AccountRepositoryLoginResponseLogged_in_user } from 'instagram-private-api';
+import { AccountRepositoryLoginResponseLogged_in_user, IgApiClient } from 'instagram-private-api';
 
 
 export interface BotInterface {
-    login(): Promise<AccountRepositoryLoginResponseLogged_in_user | ErrorTwoF>
+    login(): Promise<IgApiClient | ErrorTwoF>
 }
